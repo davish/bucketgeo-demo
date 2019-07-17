@@ -31,9 +31,10 @@ def insert_docs():
   {"loc":{"type":"Point","coordinates":[62.02507,26.67068]}}]
     test_db = test_db.insert_many(arr)
     test_docs = db.test_db
-    arr_docs = []
-    for doc in test_docs.find():
-        arr_docs.append(pprint.pformat(doc))
-    return str(arr_docs)
+    pipeline = [
+        {"$project": { "loc.coordinates": 1, "_id": 0 }}
+    ]
+    str2 = pprint.pformat(list(db.test_db.aggregate(pipeline)))
+    return str2
 if __name__ == '__main__':
     app.run()
