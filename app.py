@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 import pymongo
 import pprint
 from pymongo import MongoClient
@@ -15,17 +15,31 @@ def insert_docs():
   return jsonify({"result": "ok"})
 
 
-@app.route('/points')
+@app.route('/points', methods=['GET'])
 def get_points():
   docs = coll.find({}, {'_id': 0})
   return jsonify({"points": list(docs)})
 
-@app.route('/cluster')
+@app.route('/cluster', methods=['POST'])
 def cluster():
-  clusters = request.args.get('clusters')
-  clusters = int(request.args.get('n')) if clusters is None else clusters
+  req = request.get_json()
+  clusters = req.get('clusters')
+  clusters = int(req.get('k', 0)) if clusters is None else clusters
   pipeline = [{"$bucketGeo": {"groupBy": '$loc', "centers": clusters, "output": {"points": {"$push": '$loc' }}}}]
   return jsonify({'results': list(coll.aggregate(pipeline))}) 
+
+@app.route('/', methods=['GET'])
+def home():
+  return 'home' 
+
+@app.route('/demo', methods=['GET'])
+def demo():
+  return render_template('map.html')
+
+@app.route('/drop', methods=['GET'])
+def drop_coll():
+  coll.drop()
+  return jsonify({"result": "ok"})
 
 if __name__ == '__main__':
   app.run()

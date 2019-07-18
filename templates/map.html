@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Simple Map</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style.css') }}">
+    <script
+			  src="https://code.jquery.com/jquery-3.4.1.min.js"
+			  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+			  crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <div id="map"></div>
+    <button id="cluster">Cluster!</button>
+    <script src="{{ url_for('static', filename = 'app.js') }}"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUsEzRBZ2aUk6VgAX9KAKTXxmdsRw1DMA&callback=initMap"
+    async defer></script>
+    
+  </body>
+</html>
