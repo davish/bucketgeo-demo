@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Simple Map</title>
+    <title>$bucketGeo</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename = 'style.css') }}">
@@ -11,9 +11,25 @@
 			  crossorigin="anonymous"></script>
   </head>
   <body>
-    <div id="map"></div>
-    <button id="cluster">Cluster!</button>
+    <h1>$bucketGeo</h1>
+    <pre>
+        $bucketGeo: {
+          centers: &lt;number|Array&gt;, 
+          groupBy: &lt;Expression | Array, Geo&gt;, 
+          output: {
+              &lt;output1&gt;: {$accumulator expression}
+              ...
+          }
+        }
+    </pre>
+    <div class="slidecontainer">
+      <input type="range" min="1" max="10" value="3" class="slider" id="k">
+      <span id="num-clusters">Number of clusters: 3</span>
+    </div>
+    <button id="cluster-btn">Cluster!</button>
+    <button id="drop-btn">Drop!</button>
     <script src="{{ url_for('static', filename = 'app.js') }}"></script>
+    <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUsEzRBZ2aUk6VgAX9KAKTXxmdsRw1DMA&callback=initMap"
     async defer></script>
     

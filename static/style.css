@@ -1,13 +1,32 @@
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
+
+#cluster-btn {
+   background-color: #589636;
+}
+
+#drop-btn {
+   background-color: #e74c3c;
+}
+
+button {
+    color: white;
+    padding: 6px 12px;
+    font-size: 1.8rem;
+}
+
 #map {
+    display: block;
+    margin: auto;
+    max-height: 800px;
     height: 90%;
-    width: 90%;
+    width: 100%;
 }
 
 /* Optional: Makes the sample page fill the window. */
 html, body {
     height: 100%;
     margin: 0;
-    padding: 0;
+    padding: 5px 15px;
+    padding-bottom: 15px;
 }

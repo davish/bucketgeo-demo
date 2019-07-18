@@ -36,7 +36,7 @@ def home():
 def demo():
   return render_template('map.html')
 
-@app.route('/drop', methods=['GET'])
+@app.route('/drop', methods=['POST'])
 def drop_coll():
   coll.drop()
   return jsonify({"result": "ok"})
