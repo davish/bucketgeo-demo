@@ -34,7 +34,7 @@ var map;
 window.markers = {};
 function setMarkers(points) {
     for (let point of points) {
-        markers[point._id] = new google.maps.Marker({ position: { lat: point.loc.coordinates[1], lng: point.loc.coordinates[0] }, map: map })
+        markers[point.loc.coordinates.toString()] = new google.maps.Marker({ position: { lat: point.loc.coordinates[1], lng: point.loc.coordinates[0] }, map: map })
     }
 }
 
@@ -43,7 +43,7 @@ function clusterMarkers(clusters) {
     for (let cluster of clusters) {
         i++;
         for (let pointId of cluster.points) {
-            markers[pointId].setLabel(String(i));
+            markers[point.coordinates.toString()].setLabel(String(i));
         }
         console.log(cluster._id.center)
         markers['cluster' + i] = new google.maps.Marker({ position: cluster._id.center, icon: { url: 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png' }, map: map })
