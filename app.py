@@ -25,12 +25,20 @@ def cluster():
   req = request.get_json()
   clusters = req.get('clusters')
   clusters = int(req.get('k', 0)) if clusters is None else clusters
-  pipeline = [{"$bucketGeo": {"groupBy": '$loc', "centers": clusters, "output": {"points": {"$push": '$loc' }}}}]
+  pipeline = [
+    {
+      "$bucketGeo": {
+        "groupBy": '$loc', 
+        "centers": clusters, 
+        "output": {"points": {"$push": '$loc' }}
+      }
+    }
+  ]
   return jsonify({'results': list(coll.aggregate(pipeline))}) 
 
 @app.route('/', methods=['GET'])
 def home():
-  return 'home' 
+  return '<h3>home</h3>' 
 
 @app.route('/demo', methods=['GET'])
 def demo():
