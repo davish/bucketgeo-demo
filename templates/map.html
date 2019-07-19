@@ -11,27 +11,41 @@
 			  crossorigin="anonymous"></script>
   </head>
   <body>
-    <h1>$bucketGeo</h1>
-    <pre>
-        $bucketGeo: {
-          centers: &lt;number|Array&gt;, 
-          groupBy: &lt;Expression | Array, Geo&gt;, 
-          output: {
-              &lt;output1&gt;: {$accumulator expression}
-              ...
-          }
+      <h1>$bucketGeo</h1>
+      <p>By Allison Easton, Claire Childs, Davis Haupt, Medha Potluri, Misha Ivkov, Xin Hao Zhang</p>
+      <div id="content-left">
+      <pre>
+      $bucketGeo: {
+        centers: &lt;number|Array&gt;, 
+        groupBy: &lt;Expression&gt;, 
+        output: {
+            &lt;output1&gt;: {$accumulator expression}
+            ...
         }
-    </pre>
-    <div class="slidecontainer">
-      <input type="range" min="1" max="10" value="3" class="slider" id="k">
-      <span id="num-clusters">Number of clusters: 3</span>
+      }
+      </pre>
+      <div id="buttons-wrapper">
+          <div class="slidecontainer">
+            <span id="num-clusters"># of clusters: 3</span>
+            <input type="range" min="1" max="10" value="3" class="slider" id="k">
+          </div>
+          <button id="cluster-btn">Cluster!</button><br style="line-height:1px;" />
+          <button id="bucket-btn">Bucket!</button><br style="line-height:1px;" />
+          <button id="drop-btn">Drop!</button>
+      </div>
+
+      <div><br style="line-height:5px;" /></div>
+
+      <div id="results-wrapper" style="overflow:scroll; height:500px;">
+        <pre id="results" style="display: none;"></pre>
+      </div>
+      
+      <script src="{{ url_for('static', filename = 'app.js') }}"></script>
     </div>
-    <button id="cluster-btn">Cluster!</button>
-    <button id="drop-btn">Drop!</button>
-    <script src="{{ url_for('static', filename = 'app.js') }}"></script>
     <div id="map"></div>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDUsEzRBZ2aUk6VgAX9KAKTXxmdsRw1DMA&callback=initMap"
-    async defer></script>
+    async defer></script>  
+    
     
   </body>
 </html>

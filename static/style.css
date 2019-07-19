@@ -1,26 +1,57 @@
 /* Always set the map height explicitly to define the size of the div
 * element that contains the map. */
 
+#content-left {
+    display:inline-block;
+    margin-right: 10px;
+    width: 545px;
+}
+
+#results {
+    min-height: 1em;
+    width: 100%;
+}
+
 #cluster-btn {
-   background-color: #589636;
+   background-color: #22a7f0;
 }
 
 #drop-btn {
    background-color: #e74c3c;
 }
 
+pre {
+    padding: 1rem;
+    background-color: lightgray;
+    margin: 0;
+}
+
+#bucket-btn {
+    background-color: #589636;
+}
+
+#buttons-wrapper {
+    width: 130px;
+}
+
+#buttons-wrapper, pre {
+    display: inline-block;
+}
+
 button {
+    width: 100%;
     color: white;
     padding: 6px 12px;
     font-size: 1.8rem;
+    margin-bottom: 5px;
 }
 
 #map {
-    display: block;
+    display: inline-block;
     margin: auto;
     max-height: 800px;
     height: 90%;
-    width: 100%;
+    width: 800px;
 }
 
 /* Optional: Makes the sample page fill the window. */

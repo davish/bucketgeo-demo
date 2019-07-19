@@ -10,10 +10,15 @@ function icon(i) {
 
 window.markers = {};
 window.centerMarkers = []
+window.definedClusters = {};
 function setMarkers(points) {
     markers = {};
     for (let point of points) {
-        markers[point.loc.coordinates.toString()] = new google.maps.Marker({ position: { lat: point.loc.coordinates[1], lng: point.loc.coordinates[0] }, map: map })
+        markers[point.loc.coordinates.toString()] =
+            new google.maps.Marker({
+                position: { lat: point.loc.coordinates[1], lng: point.loc.coordinates[0] },
+                map: map
+            });
     }
 }
 
@@ -41,6 +46,17 @@ function placeMarker(position, map) {
     markers[[position.lng(), position.lat()].toString()] = marker
 }
 
+function placeCenter(position, map) {
+    var marker = new google.maps.Marker({
+        position: position,
+        map: map,
+        icon: {
+            url: 'http://maps.google.com/mapfiles/ms/icons/green-dot.png' 
+        }
+    });
+    definedClusters[[position.lng(), position.lat()].toString()] = marker
+}
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: { lat: 0, lng: 0 },
@@ -59,6 +75,9 @@ function initMap() {
             data: JSON.stringify({'coords': [[e.latLng.lng(), e.latLng.lat()]]}),
         });
     });
+    map.addListener('rightclick', e => {
+        placeCenter(e.latLng, map);
+    })
 
     $.get('/points', (data) => setMarkers(data.points))
 
@@ -71,18 +90,52 @@ function initMap() {
             processData: false, 
             contentType: "application/json; charset=utf-8",
             data: JSON.stringify({k: $('#k').val()}),
-            success: (data) => clusterMarkers(data.results)
+            success: (data) => {
+                $('#results').text(JSON.stringify(data.results, null, 2)),
+                $('#results').show(),
+                clusterMarkers(data.results)
+            }
         });
     });
 
-    $('#num-clusters').text('Number of clusters: ' + $('#k').val()) 
+    $('#bucket-btn').click(e => {
+        let centers = [];
+        for (let marker of Object.values(definedClusters)) {
+            centers.push({
+                type: 'Point',
+                coordinates: [marker.position.lng(), marker.position.lat()]
+            })
+        }
+        // console.log(centers);
+        $.ajax({
+            url: '/cluster', 
+            method: 'POST', 
+            dataType: 'json', 
+            processData: false, 
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({clusters: centers}),
+            success: (data) => {
+                $('#results').text(JSON.stringify(data.results, null, 2)),
+                $('#results').show(),
+                clusterMarkers(data.results)
+            }
+        });
+    })
+
+    $('#num-clusters').text('# of clusters: ' + $('#k').val()) 
     $("#k").on('input', e => {
-        $('#num-clusters').text('Number of clusters: ' + e.target.value)
+        $('#num-clusters').text('# of clusters: ' + e.target.value)
     })
 
     $('#drop-btn').click(e => {
-        console.log('ouch2!');
+        console.log('Dropping markers and clusters...');
         for(let marker of Object.values(markers)) {
+            marker.setMap(null);
+        }
+        for (let center of centerMarkers) {
+            center.setMap(null);
+        }
+        for(let marker of Object.values(definedClusters)) {
             marker.setMap(null);
         }
         setMarkers([]);
